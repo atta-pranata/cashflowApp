@@ -32,25 +32,25 @@ COL_NOMINAL = "nominal_(Rp)"  # Sesuai dengan nama kolom di database.
 # --- Jenis-Jenis Transaksi ---
 JENIS_PEMASUKAN = "Masuk"
 JENIS_PENGELUARAN = "Keluar"
-KATEGORI_TOP_UP = "Top Up"  # Konstanta untuk kategori "Top Up"
+KATEGORI_TOP_UP = "Top-Up/Transfer"  # Konstanta untuk kategori "Top Up"
 
 # --- Kategori dan Metode Biaya Admin ---
-KATEGORI_BIAYA_ADMIN = "Biaya Admin"
+KATEGORI_BIAYA_ADMIN = "Administration Fee"
 METODE_BIAYA_SUMBER = "Dikenakan pada akun sumber"
 METODE_BIAYA_TUJUAN = "Dipotong dari akun tujuan"
 
 # --- Daftar Kategori Transaksi (Update KATEGORI_PENGELUARAN) ---
-KATEGORI_PEMASUKAN = sorted(["Dividen", "Gaji", "Hadiah", "Hibah", "Lainnya", "Reimbursement", KATEGORI_TOP_UP])
+KATEGORI_PEMASUKAN = sorted(["Dividend", "Salary", "Gift", "Grant", "Others", "Reimbursement", KATEGORI_TOP_UP])
 KATEGORI_PENGELUARAN = sorted([
-    "Hobi/Keinginan", "Internet", "Investasi", "Kendaraan/Mobilitas", "Kesehatan/Perawatan", "Lain-lain",
-    "Main/Jajan", "Makan", "Pengembangan Diri", "Reimbursement", "Tak Terduga", "Tempat Tinggal",
+    "Wishes", "Investment", "Transportation/Mobility", "Health/Care", "Others", 
+    "Leisure/Snacks", "Food/Groceries", "Self Development", "Reimbursement", "Unexpected", "Essentials", "Entertainment/Hobbies",
     KATEGORI_TOP_UP,
     KATEGORI_BIAYA_ADMIN 
 ])
 
 # --- Daftar Pilihan Akun ---
 PILIHAN_AKUN = sorted([
-    "BNI", "Cash", "Jago", "Jago (tersier)", "GoPay", "ShopeePay", "DANA", "OVO", "Dana Darurat", "Tabungan"
+    "BNI", "Cash", "Jago", "Jago (tersier)", "GoPay", "ShopeePay", "DANA", "Emergency Fund", "Savings", "e-Money"
 ])
 
 # --- Kamus (Dictionary) untuk Logo Akun ---
@@ -555,23 +555,27 @@ def halaman_lihat_saldo():
 
     custom_divider(margin_top=5, margin_bottom=0)
 
-    # Menampilkan daftar saldo per akun, diurutkan berdasarkan saldo terbesar
-    akun_terurut = sorted(SEMUA_AKUN_DENGAN_LOGO.keys(), key=lambda akun: saldo_akun.get(akun, 0), reverse=True)
+    # --- PERUBAHAN 1 ---
+    # Menggunakan PILIHAN_AKUN sebagai sumber utama, bukan SEMUA_AKUN_DENGAN_LOGO
+    akun_terurut = sorted(PILIHAN_AKUN, key=lambda akun: saldo_akun.get(akun, 0), reverse=True)
 
     for akun_name in akun_terurut:
-        logo_url = SEMUA_AKUN_DENGAN_LOGO.get(akun_name, "")
+        # logo_url = SEMUA_AKUN_DENGAN_LOGO.get(akun_name, "") # <-- Dihapus
         saldo = saldo_akun.get(akun_name, 0)
         formatted_saldo = f"Rp {saldo:,.0f}".replace(',', '.')
         if saldo < 0:
             formatted_saldo = f"-Rp {abs(saldo):,.0f}".replace(',', '.')
         
         col1, col2 = st.columns([1,1])
-        col1.markdown(f'<h5><img src="{logo_url}" height="15">&emsp;{akun_name}</h5>', unsafe_allow_html=True)
+        
+        # --- PERUBAHAN 2 ---
+        # Menghapus tag <img> dan &emsp; dari markdown
+        col1.markdown(f'<h5>{akun_name}</h5>', unsafe_allow_html=True)
+        
         color = "red" if saldo < 0 else "inherit"
         col2.markdown(f'<h5 style="text-align: right; color: {color};">{formatted_saldo}</h5>', unsafe_allow_html=True)
         
         custom_divider(margin_top=0, margin_bottom=0)
-
 
 def tampilkan_form_edit_hapus(df_filtered):
     """Menampilkan expander berisi form untuk mengedit atau menghapus transaksi."""

@@ -32,7 +32,7 @@ COL_NOMINAL = "nominal_(Rp)"  # Sesuai dengan nama kolom di database.
 # --- Jenis-Jenis Transaksi ---
 JENIS_PEMASUKAN = "Masuk"
 JENIS_PENGELUARAN = "Keluar"
-KATEGORI_TOP_UP = "Top-Up/Transfer"  # Konstanta untuk kategori "Top Up"
+KATEGORI_TOP_UP = "Top-Up"  # Konstanta untuk kategori "Top Up"
 
 # --- Kategori dan Metode Biaya Admin ---
 KATEGORI_BIAYA_ADMIN = "Administration Fee"
@@ -42,16 +42,16 @@ METODE_BIAYA_TUJUAN = "Dipotong dari akun tujuan"
 # --- Daftar Kategori Transaksi (Update KATEGORI_PENGELUARAN) ---
 KATEGORI_PEMASUKAN = sorted(["Dividend", "Salary", "Gift", "Grant", "Others", "Reimbursement", KATEGORI_TOP_UP])
 KATEGORI_PENGELUARAN = sorted([
-    "Wishes", "Investment", "Transportation/Mobility", "Health/Care", "Others", 
-    "Leisure/Snacks", "Food/Groceries", "Self Development", "Reimbursement", "Unexpected", "Essentials", "Entertainment/Hobbies",
+    "Wishes", "Investment", "Transportation", "Health/Care", "Others", "Maintenance",
+    "Leisure/Snacks", "Food/Groceries", "Self Development", "Reimbursement", "Unexpected", "Essentials", "Entertainment",
     KATEGORI_TOP_UP,
     KATEGORI_BIAYA_ADMIN 
 ])
 
 # --- Daftar Pilihan Akun ---
-PILIHAN_AKUN = sorted([
-    "BNI", "Cash", "Jago", "Jago (tersier)", "GoPay", "ShopeePay", "DANA", "Emergency Fund", "Savings", "e-Money"
-])
+PILIHAN_AKUN = [
+    "Cash", "BNI", "Jago", "Jago-2", "GoPay", "ShopeePay", "e-Money", "DANA", "Savings","Emergency Fund"
+]
 
 # --- Kamus (Dictionary) untuk Logo Akun ---
 LOGO_JAGO = "https://upload.wikimedia.org/wikipedia/commons/c/c0/Logo-jago.svg"
@@ -555,12 +555,10 @@ def halaman_lihat_saldo():
 
     custom_divider(margin_top=5, margin_bottom=0)
 
-    # --- PERUBAHAN 1 ---
     # Menggunakan PILIHAN_AKUN sebagai sumber utama, bukan SEMUA_AKUN_DENGAN_LOGO
-    akun_terurut = sorted(PILIHAN_AKUN, key=lambda akun: saldo_akun.get(akun, 0), reverse=True)
+    # akun_terurut = sorted(PILIHAN_AKUN, key=lambda akun: saldo_akun.get(akun, 0), reverse=True)
 
-    for akun_name in akun_terurut:
-        # logo_url = SEMUA_AKUN_DENGAN_LOGO.get(akun_name, "") # <-- Dihapus
+    for akun_name in PILIHAN_AKUN:
         saldo = saldo_akun.get(akun_name, 0)
         formatted_saldo = f"Rp {saldo:,.0f}".replace(',', '.')
         if saldo < 0:
@@ -568,7 +566,6 @@ def halaman_lihat_saldo():
         
         col1, col2 = st.columns([1,1])
         
-        # --- PERUBAHAN 2 ---
         # Menghapus tag <img> dan &emsp; dari markdown
         col1.markdown(f'<h5>{akun_name}</h5>', unsafe_allow_html=True)
         

@@ -43,7 +43,7 @@ METODE_BIAYA_TUJUAN = "Dipotong dari akun tujuan"
 KATEGORI_PEMASUKAN = sorted(["Dividend", "Salary", "Gift", "Grant", "Others", "Reimbursement", KATEGORI_TOP_UP])
 KATEGORI_PENGELUARAN = sorted([
     "Wishes", "Investment", "Transportation", "Health/Care", "Others", "Maintenance",
-    "Snacks", "Food/Groceries", "Self Development", "Reimbursement", "Unexpected", "Essentials", "Leisure/Entertainment",
+    "Snacks", "Food/Groceries", "Self Development", "Reimbursement", "Unexpected", "Essentials", "Entertainment",
     KATEGORI_TOP_UP,
     KATEGORI_BIAYA_ADMIN 
 ])

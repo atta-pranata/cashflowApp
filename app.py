@@ -446,7 +446,7 @@ def halaman_dashboard():
         st.dataframe(
             df_display, use_container_width=True, hide_index=True,
             column_config={
-                "id": None, "hari": None, "bulan": None, "tahun": None,
+                "id": st.column_config.TextColumn("ID"), "hari": None, "bulan": None, "tahun": None,
                 "No.": st.column_config.TextColumn("No."),
                 "tanggal": st.column_config.DateColumn("Tanggal", format="YYYY-MM-DD"),
                 "jenis": st.column_config.TextColumn("Jenis"),

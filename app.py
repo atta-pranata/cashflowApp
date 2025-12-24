@@ -439,7 +439,7 @@ def halaman_dashboard():
     if df_display.empty:
         st.warning("Tidak ada data yang cocok dengan filter detail Anda.")
     else:
-        df_display = df_display.sort_values(by=['tanggal', 'id], ascending=[False, False]).reset_index(drop=True)
+        df_display = df_display.sort_values(by=['tanggal', 'id'], ascending=[False, False]).reset_index(drop=True)
         df_display.insert(0, 'No.', range(1, len(df_display) + 1))
         df_display[COL_NOMINAL] = df_display[COL_NOMINAL].apply(lambda x: f"{x:,.0f}".replace(',', '.'))
         
